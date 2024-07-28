@@ -13,10 +13,15 @@ $(document).ready( () => {
                     $('#sugestao').empty();
                     if(data.length){
                         data.forEach(item => {
-                            $('#sugestao').append('<li>' + item + '</li>');
+                            $('#sugestao').html(`
+                                <div class="suggestion-item">
+                                    <span class="suggestion-name">${item.nome}</span>
+                                    <span class="suggestion-cpf">${item.cpf}</span>
+                                </div>`
+                            );
                         });
                     } else {
-                        $('#sugestao').append('<li>Sem sugestões</li>');
+                        $('#sugestao').append('Sem sugestões');
                     }
                 }
             });
