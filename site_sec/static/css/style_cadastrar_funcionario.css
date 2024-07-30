@@ -1,0 +1,119 @@
+:root {
+    --primary-color: #fff;
+    --secondary-color: #1A2250;
+    --tertiary-color: #3B4169;
+    --background-color: #EEF0F7;
+    --box-shadow-color: rgba(0, 0, 0, 0.185);
+    --button-gradient-start: #89CAFF;
+    --button-gradient-end: #6589FF;
+    --button-shadow: #89caff94;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.form-container {
+    background-color: var(--primary-color);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 20px 30px var(--box-shadow-color);
+    width: 100%;
+    max-width: 600px;
+    transition: all 0.3s ease;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--secondary-color);
+    transition: color 0.3s ease;
+}
+
+.profile-pic-container {
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    display: block;
+    margin: 0 auto;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    transition: filter 0.3s ease;
+}
+
+.profile-pic:hover {
+    filter: brightness(0.7);
+}
+
+.edit-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    display: none;
+    pointer-events: none;
+}
+
+.profile-pic-container:hover .edit-icon {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--tertiary-color);
+    transition: color 0.3s ease;
+}
+
+.form-group input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: var(--tertiary-color);
+    transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.form-group input[type="file"] {
+    display: none;
+}
+
+.form-group button {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    background-image: linear-gradient(to right, var(--button-gradient-start), var(--button-gradient-end));
+    color: var(--primary-color);
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    box-shadow: 0 5px 20px var(--button-shadow);
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.form-group button:hover {
+    box-shadow: none;
+}

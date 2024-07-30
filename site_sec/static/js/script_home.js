@@ -1,6 +1,7 @@
 $(document).ready( () => {
-    $('#search').keyup(function() {
+    $('#search').on('input', function() {
         var query = $(this).val();
+     
 
         if(query.length > 2){
             $.ajax({
@@ -13,7 +14,7 @@ $(document).ready( () => {
                     $('#sugestao').empty();
                     if(data.length){
                         data.forEach(item => {
-                            $('#sugestao').html(`
+                            $('#sugestao').append(`
                                 <div class="suggestion-item">
                                     <span class="suggestion-name">${item.nome}</span>
                                     <span class="suggestion-cpf">${item.cpf}</span>
