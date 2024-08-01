@@ -16,7 +16,7 @@
             <h2>Cadastro de Funcionário</h2>
         </div>
         <form action="{% url 'criar_funcionario' %}" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
+            <div class="form-group arquivo">
                 <input type="file" id="profile-pic" name="profile-pic" accept="image/*" onchange="loadProfilePic(event)">
                 <div class="profile-pic-container">
                     <img id="profile-pic-preview" class="profile-pic" src="https://static.vecteezy.com/system/resources/previews/005/544/718/original/profile-icon-design-free-vector.jpg" alt="Foto de Perfil" onclick="triggerFileInput()">
