@@ -95,7 +95,7 @@ body {
     transition: border-color 0.3s ease, color 0.3s ease;
 }
 
-.arquivo input[type="file"] {
+.form-group input[type="file"] {
     display: none;
 }
 

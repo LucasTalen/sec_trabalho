@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Funcionario
+from .models import Funcionario, ExtrasFuncionario
+from django.db.models import Max
 
 
 # Create your views here.
@@ -52,9 +53,11 @@ def buscar_funcionario(request):
 @csrf_exempt
 def perfil_funcionario(request, cpf):
     funcionario = get_object_or_404(Funcionario, CPF=cpf)
-    print(funcionario.nascimento)
-    return render(request, 'site_sec/perfil.html', {'funcionario':funcionario})
-
+    validade = data_mais_recente_treinamento(cpf)
+    lista_atestado, lista_advertencia = dados_extra_funcionario(cpf)
+    response = render(request, 'site_sec/perfil.html', {'funcionario':funcionario, 'validade':validade})
+    response.set_cookie('cpf', cpf)
+    return response
 
 @csrf_exempt
 def editar_funcionario(request):
@@ -66,10 +69,6 @@ def editar_funcionario(request):
         cargo = request.POST.get('position')
         email = request.POST.get('email')
         foto_de_perfil = request.FILES.get('profile-pic')
-        
-        print(cpf)
-        print(nome)
-        
         funcionario = get_object_or_404(Funcionario, CPF=cpf)
         
                 
@@ -85,3 +84,59 @@ def editar_funcionario(request):
         funcionario.save()
         
         return render(request, f'site_sec/perfil.html')
+
+@csrf_exempt
+def editar_extra_funcionario(request):
+    if request.method == 'POST':
+        cpf = request.session.get('cpf')
+        validade = request.POST.get('validade')
+        historico_text = request.POST.get('historico_text')
+        historico_file = request.FILES.get('historico_file')
+        atestado = request.FILES.get('atestado')
+        outros = request.POST.get('outros')
+        
+        funcionario = get_object_or_404(Funcionario, CPF=cpf)
+        
+        ExtrasFuncionario(
+            funcionario=funcionario,
+            validade_treinamento=validade,
+            advertencia_obs=historico_text,
+            advertencia_anexo=historico_file,
+            atestado_obs=outros,
+            atestado_anexo=atestado            
+        ).save()
+        return render(request, f'site_sec/home.html')
+        
+        
+def data_mais_recente_treinamento(cpf):
+    funcionario = get_object_or_404(Funcionario, CPF=cpf)
+    validade = ExtrasFuncionario.objects.filter(funcionario=funcionario).aggregate(Max('validade_treinamento'))
+    return validade['validade_treinamento__max']
+
+def dados_extra_funcionario(cpf):
+    funcionario = get_object_or_404(Funcionario, CPF=cpf)
+    extras = ExtrasFuncionario.objects.filter(funcionario=funcionario)
+    atestado_list = []
+    advertencia_list = []
+    
+    for extra in extras:
+        if extra.atestado_obs or extra.atestado_anexo:
+            atestado_list.append({
+                'atestado_obs': extra.atestado_obs,
+                'atestado_anexo':extra.atestado_anexo.url if extra.atestado_anexo else None
+            })
+    
+        if extra.advertencia_obs or extra.advertencia_anexo:
+            advertencia_list.append({
+                'advertencia_obs':extra.advertencia_obs,
+                'advertencia_anexo':extra.advertencia_anexo.url if extra.advertencia_anexo else None
+            })
+    print("Atestados:")
+    for atestado in atestado_list:
+        print(atestado)
+
+    print("Advertências:")
+    for advertencia in advertencia_list:
+        print(advertencia)
+        
+    return atestado_list, advertencia_list

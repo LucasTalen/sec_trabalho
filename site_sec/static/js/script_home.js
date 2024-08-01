@@ -16,8 +16,10 @@ $(document).ready( () => {
                         data.forEach(item => {
                             $('#sugestao').append(`
                                 <div class="suggestion-item">
-                                    <span class="suggestion-name">${item.nome}</span>
-                                    <span class="suggestion-cpf">${item.cpf}</span>
+                                    <a href="/perfil/${item.cpf}/">
+                                        <span class="suggestion-name">${item.nome}</span>
+                                        <span class="suggestion-cpf">${item.cpf}</span>
+                                    </a>
                                 </div>`
                             );
                         });

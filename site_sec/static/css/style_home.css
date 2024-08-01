@@ -20,8 +20,8 @@ body {
 
 .container {
   background-color: #fff;
-  width: 600px;
-  height: 450px;
+  width: 800px;
+  height: 650px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -32,8 +32,8 @@ body {
 }
 
 .container img {
-  width: 250px;
-  height: 400px;
+  width: 400px;
+  height: 600px;
   object-fit: cover;
   object-position: center;
   transition: filter 0.3s ease;
@@ -44,7 +44,7 @@ body {
 }
 
 .container-text {
-  padding: 10px 40px 10px 10px;
+  padding: 10px 10px 10px 10px;
 }
 
 .container-text h2 {

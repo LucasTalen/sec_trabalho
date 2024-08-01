@@ -1,0 +1,29 @@
+CREATE DATABASE Biblioteca;
+
+USE Biblioteca;
+
+CREATE TABLE Autores (
+    AutorID INT PRIMARY KEY AUTO_INCREMENT,
+    Nome VARCHAR(100)
+);
+
+CREATE TABLE Livros (
+    LivroID INT PRIMARY KEY AUTO_INCREMENT,
+    Titulo VARCHAR(200),
+    AnoPublicacao INT,
+    AutorID INT,
+    FOREIGN KEY (AutorID) REFERENCES Autores(AutorID)
+);
+
+DELIMITER //
+CREATE TRIGGER InsereAutor
+AFTER INSERT ON Livros
+FOR EACH ROW
+BEGIN
+    DECLARE autor_count INT;
+    SELECT COUNT(*) INTO autor_count FROM Autores WHERE AutorID = NEW.AutorID;
+    IF autor_count = 0 THEN
+        INSERT INTO Autores (Nome) VALUES ('Autor Desconhecido');
+    END IF;
+END //
+DELIMITER ;
