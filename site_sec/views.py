@@ -55,7 +55,12 @@ def perfil_funcionario(request, cpf):
     funcionario = get_object_or_404(Funcionario, CPF=cpf)
     validade = data_mais_recente_treinamento(cpf)
     lista_atestado, lista_advertencia = dados_extra_funcionario(cpf)
-    response = render(request, 'site_sec/perfil.html', {'funcionario':funcionario, 'validade':validade})
+    response = render(request, 'site_sec/perfil.html', {
+        'funcionario':funcionario,
+        'validade':validade,
+        'atestados':lista_atestado,
+        'advertencias':lista_advertencia
+        })
     response.set_cookie('cpf', cpf)
     return response
 
@@ -131,12 +136,5 @@ def dados_extra_funcionario(cpf):
                 'advertencia_obs':extra.advertencia_obs,
                 'advertencia_anexo':extra.advertencia_anexo.url if extra.advertencia_anexo else None
             })
-    print("Atestados:")
-    for atestado in atestado_list:
-        print(atestado)
-
-    print("Advertências:")
-    for advertencia in advertencia_list:
-        print(advertencia)
-        
+ 
     return atestado_list, advertencia_list
