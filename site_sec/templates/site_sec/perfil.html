@@ -49,8 +49,19 @@
                 <input type="text" id="position" name="position" value="{{funcionario.cargo}}" required>
             </div>
             <div class="form-group">
+                <label for="matricula">Matricula</label>
+                <input type="text" id="matricula" name="matricula" value="{{funcionario.matricula}}" required>
+            </div>
+            <div class="form-group">
+                <label for="admissao">Data de Admissão</label>
+                <input type="date" id="admissao" name="admissao" value="{{funcionario.nascimento|date:'Y-m-d'}}" required>
+            </div>
+
+            <div class="form-group">
                 <button type="submit">Editar Dados Funcionario</button>
-                <button type="">Apagar Dados Funcionario</button>
+                <button type="button" onclick="window.location.href = `/deletar/{{funcionario.CPF}}/`">Apagar Dados Funcionario</button>
+                <button type="button" onclick="window.location.href = `/crachar/{{funcionario.CPF}}/`">Baixar Crachá</button>
+                
             </div>
         </form>
         <form action="{% url 'salvar_detalhes_funcionario' %}" method="POST" enctype="multipart/form-data">
@@ -79,28 +90,42 @@
             </div>
         </form>
 
-        <div class="historico">
-            <h2>Historico</h2>
-            <div class="atestado history-section">
-                <h3>Atestados</h3>
-                {% for atestado in atestados %}
-                <div class="container">
-                    <p>{{atestado.atestado_obs}}</p>
-                    <p>Anexo: <a href="{{atestado.atestado_anexo}}" target="_blank">{{atestado.atestado_anexo}}</a></p>
-                </div>
-                {% endfor %}
+        <div class="atestado history-section">
+            <h3>Atestados</h3>
+            {% for atestado in atestados %}
+            <div class="container">
+                <p>{{atestado.atestado_obs}} 
+                    <a href="{% url 'apagar_historico' cpf=funcionario.CPF id=atestado.id %}?atestado=true&limpar_obs=true" class="delete-icon">
+                        <span class="material-symbols-outlined">close</span>
+                    </a>
+                </p>
+                <p>{% if atestado.atestado_anexo %}Anexo: <a href="{{atestado.atestado_anexo}}" target="_blank">{{atestado.atestado_anexo}}</a>   
+                    <a href="{% url 'apagar_historico' cpf=funcionario.CPF id=atestado.id %}?atestado=true&limpar_obs=true" class="delete-icon">
+                        <span class="material-symbols-outlined">close</span>
+                    </a>{% endif %}
+                </p>
             </div>
-            
-            <div class="advertencia history-section">
-                <h3>Advertências</h3>
-                {% for advertencia in advertencias %}
-                <div class="container">
-                    <p>{% if advertencia.advertencia_obs %}{{advertencia.advertencia_obs}}{% endif %}</p>
-                    <p>{% if advertencia.advertencia_anexo %}Anexo: <a href="{{advertencia.advertencia_anexo}}" target="_blank">{{advertencia.advertencia_anexo}}</a>{% endif %}</p>
-                </div>
-                {% endfor %}
+            {% endfor %}
+        </div>
+        
+        <div class="advertencia history-section">
+            <h3>Advertências</h3>
+            {% for advertencia in advertencias %}
+            <div class="container">
+                <p>{{advertencia.advertencia_obs}} 
+                    <a href="{% url 'apagar_historico' cpf=funcionario.CPF id=advertencia.id %}?advertencia=true&limpar_obs=true" class="delete-icon">
+                        <span class="material-symbols-outlined">close</span>
+                    </a>
+                </p>
+                <p>{% if advertencia.advertencia_anexo %}Anexo: <a href="{{advertencia.advertencia_anexo}}" target="_blank">{{advertencia.advertencia_anexo}}</a>   
+                    <a href="{% url 'apagar_historico' cpf=funcionario.CPF id=advertencia.id %}?advertencia=true&limpar_obs=true" class="delete-icon">
+                        <span class="material-symbols-outlined">close</span>
+                    </a>{% endif %}
+                </p>
             </div>
-            
+            {% endfor %}
+        </div>
+        
 
         </div>
 

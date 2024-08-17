@@ -33,13 +33,34 @@ let scanner = new Instascan.Scanner({
     video: document.getElementById('preview')
 });
 
-// Verifica quando um QR code for escaneado
-// scanner.addListener('scan', function (content) {
 
-//     consumirAPI(content)
-//     content = ""
-// });
+scanner.addListener('scan', function (content) {
 
+    verificarRota(content)
+    content = ""
+});
+
+function verificarRota(content){
+    const apiUrl = `/perfil/${content}/`;
+    
+    fetch(apiUrl, {
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Origin, X-Request-Width, Content-Type, Accept'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            window.location.href = `/perfil/${content}/`
+        } else{
+            throw new Error('Rota não encontrada.');
+        }
+        return response.text();
+    })
+    .catch(error => {
+        console.error('Ocorreu um erro ao consumir a API:', error);
+    });
+}
 
 
 //----------------------------------------------------------

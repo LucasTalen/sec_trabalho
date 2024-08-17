@@ -11,7 +11,10 @@ urlpatterns = [
     path('criar/funcionario/', views.criar_funcionario, name='criar_funcionario'),
     path('editar/funcionario/', views.editar_funcionario, name='editar_funcionario'),
     path('perfil/<str:cpf>/', views.perfil_funcionario, name='perfil_funcionario'),
-    path('salvar/detalhes/funcionario', views.editar_extra_funcionario, name='salvar_detalhes_funcionario'),
+    path('crachar/<str:cpf>/', views.gerar_crachar, name='crachar_funcionario'),
+    path('deletar/<str:cpf>/', views.apagar_funcionario, name='apagar_funcionario'),
+    path('funcionario/<str:cpf>/historico/<int:id>/apagar/', views.apagar_historico, name='apagar_historico'),
+    path('salvar/detalhes/funcionario/', views.editar_extra_funcionario, name='salvar_detalhes_funcionario'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
